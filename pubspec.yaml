@@ -35,6 +35,7 @@ dependencies:
   flash: "^1.2.0" #flash messages
   flushbar: ^1.10.4
   shimmer: ^1.1.2
+  path_provider: ^1.6.22
 
 dev_dependencies:
   flutter_test:
