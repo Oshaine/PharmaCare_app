@@ -9,13 +9,13 @@ class Categories extends StatelessWidget {
     List<Map<String, dynamic>> categories = [
       {"icon": "assets/icons/Flash Icon.svg", "text": "Vitamins"},
       {"icon": "assets/icons/Bill Icon.svg", "text": "Antibiotics"},
-      {"icon": "assets/icons/Game Icon.svg", "text": "Iron"},
+      {"icon": "assets/icons/Game Icon.svg", "text": "Injections"},
       {"icon": "assets/icons/Gift Icon.svg", "text": "Pain Killer"},
       {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
     ];
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: getProportationateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportationateScreenWidth(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +55,7 @@ class CategoryCard extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1,
               child: Container(
-                padding: EdgeInsets.all(getProportationateScreenWidth(15)),
+                padding: EdgeInsets.all(getProportationateScreenWidth(12)),
                 decoration: BoxDecoration(
                   color: Colors.lightBlue[100],
                   borderRadius: BorderRadius.circular(10),
@@ -78,7 +78,7 @@ class CategoryCard extends StatelessWidget {
             Text(
               text,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: getProportationateScreenWidth(11)),
+              style: TextStyle(fontSize: getProportationateScreenWidth(10)),
             )
           ],
         ),

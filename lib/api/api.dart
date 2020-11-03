@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Network {
   //api url
   final String url = 'http://10.0.2.2:8000/api';
+  //server path
+  final String serverPath = 'http://10.0.2.2:8000/';
   var token;
 
   _getToken() async {
@@ -19,6 +21,7 @@ class Network {
         'Content-type': 'application/json',
         'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
+        // HttpStatus.requestTimeout: KeepAlive,
       };
 
 //post reques to api

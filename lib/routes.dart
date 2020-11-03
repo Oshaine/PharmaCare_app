@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacare_app/screens/complete_profile/complete_profile_screen.dart';
+import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/forget_password/forget_password_screen.dart';
 import 'package:pharmacare_app/screens/home/home_screen.dart';
 import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   RegistrationScreen.routeName: (context) => RegistrationScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   HomeScreen.routeName: (context) => HomeScreen(),
+  DetailsScreen.routeName: (context) => DetailsScreen(),
 };

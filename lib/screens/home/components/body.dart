@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:pharmacare_app/api/api.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/home/components/categories.dart';
 import 'package:pharmacare_app/screens/home/components/home_header.dart';
 import 'package:pharmacare_app/screens/home/components/icon_btn_counter.dart';
-import 'package:pharmacare_app/screens/home/components/product_card.dart';
+import 'package:pharmacare_app/screens/home/components/medication_card.dart';
 import 'package:pharmacare_app/screens/home/components/section_title.dart';
 import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
@@ -21,7 +22,7 @@ class _BodyState extends State<Body> {
   var userData;
   @override
   void initState() {
-        Medication().getMedication();
+    getMedication();
     _getUserInfo();
     super.initState();
   }
@@ -35,6 +36,23 @@ class _BodyState extends State<Body> {
       userData = user;
       // print(userData);
     });
+  }
+
+  //get Medications
+  List<Medication> medications = [];
+
+  void getMedication() async {
+    var endPoint = '/medications';
+    var response = await Network().getRequest(endPoint);
+    var body = json.decode(response.body);
+    for (var item in body['data']) {
+      //pass question to constructor
+      Medication medication = Medication.fromJson(item);
+      // print(item);
+      setState(() {
+        medications.add(medication);
+      });
+    }
   }
 
   @override
@@ -51,36 +69,44 @@ class _BodyState extends State<Body> {
                   padding:
                       EdgeInsets.only(left: getProportationateScreenWidth(20)),
                   child: Text(
-                    'Hi',
+                    'Welcome,',
                     style: TextStyle(
                       color: kTextColor,
-                      fontSize: getProportationateScreenWidth(20),
+                      fontSize: getProportationateScreenWidth(14),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.only(left: getProportationateScreenWidth(10)),
+                      EdgeInsets.only(left: getProportationateScreenWidth(5)),
                   child: Text(
                     userData != null
                         ? '${userData['first_name']} ${userData['last_name']}'
                         : '',
                     style:
-                        TextStyle(fontSize: getProportationateScreenWidth(20)),
+                        TextStyle(fontSize: getProportationateScreenWidth(14)),
                   ),
                 ),
+                Spacer(),
                 Padding(
                   padding:
-                      EdgeInsets.only(left: getProportationateScreenWidth(20)),
+                      EdgeInsets.only(right: getProportationateScreenWidth(20)),
                   child: IconBtnWithCounter(
                     svgSrc: "assets/icons/Log out.svg",
                     press: () {
-                      logout(context);
+                      logout();
                     },
                   ),
                 ),
               ],
+            ),
+            Divider(
+              height: getProportationateScreenHeight(30),
+              endIndent: 25,
+              indent: 25,
+              thickness: 0.5,
+              color: kPrimaryLightColor,
             ),
             SizedBox(height: getProportationateScreenWidth(20)),
 
@@ -91,7 +117,7 @@ class _BodyState extends State<Body> {
             Column(
               children: [
                 SectionTtile(
-                  text: "Products",
+                  text: "Featured Medications",
                   press: () {},
                 ),
                 SizedBox(height: getProportationateScreenWidth(20)),
@@ -100,9 +126,13 @@ class _BodyState extends State<Body> {
                   child: Row(
                     children: [
                       ...List.generate(
-                        Medication.medications.length,
+                        medications.length,
                         (index) => MedicationCard(
-                          medication: Medication.medications[index],
+                          press: () => Navigator.pushNamed(
+                              context, DetailsScreen.routeName,
+                              arguments: MedicationDetailsArgs(
+                                  medication: medications[index])),
+                          medication: medications[index],
                         ),
                       ),
                       SizedBox(
@@ -119,16 +149,17 @@ class _BodyState extends State<Body> {
       ),
     );
   }
-}
 
-void logout(BuildContext context) async {
-  var endPoint = '/auth/logout';
-  var response = await Network().getRequest(endPoint);
-  var body = json.decode(response.body);
-  if (body['status_code'] == 200) {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    localStorage.remove('user');
-    localStorage.remove('token');
-    Navigator.popAndPushNamed(context, SignInScreen.routeName);
+  void logout() async {
+    var endPoint = '/auth/logout';
+    var response = await Network().getRequest(endPoint);
+    var body = json.decode(response.body);
+    if (body['status_code'] == 200) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      print("user logged out");
+      Navigator.popAndPushNamed(context, SignInScreen.routeName);
+    }
   }
 }
