@@ -35,24 +35,27 @@ class _BodyState extends State<Body> {
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(height: 200),
+                    SizedBox(height: 300),
                     Text(
                       "PharmaCare",
-                      style: TextStyle(fontSize: 50.0, shadows: [
-                        BoxShadow(
-                          color: Colors.black,
-                          spreadRadius: 5.0,
-                          blurRadius: 2.0,
-                        ),
-                      ]),
+                      style: TextStyle(
+                          fontSize: 50.0,
+                          fontStyle: FontStyle.italic,
+                          shadows: [
+                            BoxShadow(
+                              color: Colors.black,
+                              spreadRadius: 5.0,
+                              blurRadius: 2.0,
+                            ),
+                          ]),
                     ),
                     SizedBox(height: 50),
                     // Loader(),
                   ],
                 ),
               ),
-              baseColor: Color(0xFF193566),
-              highlightColor: Color(0xFFD90368),
+              baseColor: Colors.white,
+              highlightColor: Color(0xFFAA0876),
             ),
           ],
         ),

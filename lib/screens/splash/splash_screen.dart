@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/screens/splash/components/body.dart';
 import 'package:pharmacare_app/size_config.dart';
 
@@ -9,6 +10,7 @@ class SplashScreen extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       body: Body(),
+      backgroundColor: kPrimaryColor,
     );
   }
 }
