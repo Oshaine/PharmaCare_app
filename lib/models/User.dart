@@ -4,8 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
   //get User Signed Data
-
-  void getUserInfo() async {
+  getUserInfo() async {
     var userData;
 
     SharedPreferences localStorage = await SharedPreferences.getInstance();
@@ -13,7 +12,8 @@ class User {
     var user = json.decode(userJson);
 
     userData = user;
-    print(userData);
+
+    // print(this.userId);
     return userData;
   }
 }

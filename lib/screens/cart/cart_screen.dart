@@ -8,6 +8,7 @@ import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Cart.dart';
 import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/screens/cart/components/body.dart';
+import 'package:pharmacare_app/screens/checkout/checkout_screen.dart';
 import 'package:pharmacare_app/screens/home/home_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,7 +75,7 @@ class _CheckOutCardState extends State<CheckOutCard> {
     }
   }
 
-  void _getUserInfo() async {
+  void getUserInfo() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
     var userJson = localStorage.get('user');
     var user = json.decode(userJson);
@@ -86,30 +87,30 @@ class _CheckOutCardState extends State<CheckOutCard> {
   }
 
   checkOut() async {
-     try {
-    var cartList = [];
+    try {
+      var cartList = [];
 
-    _getUserInfo();
-    for (int i = 0; i < cart.length; i++) {
-      var tempList;
+      getUserInfo();
+      for (int i = 0; i < cart.length; i++) {
+        var tempList;
 
-      tempList = {
-        "medication_id": medicationId = cart[i].medication.id,
-        "price_per_unit": price = cart[i].medication.pricePerUnit,
-        "item_count": count = cart[i].numOfItems,
+        tempList = {
+          "medication_id": medicationId = cart[i].medication.id,
+          "price_per_unit": price = cart[i].medication.pricePerUnit,
+          "item_count": count = cart[i].numOfItems,
+        };
+
+        cartList.add(tempList);
+      }
+
+      var data = {
+        'user_id': userId,
+        "item_count": count,
+        'grand_total': total,
+        'payment_method': 'paypal',
+        'cart': cartList,
       };
 
-      cartList.add(tempList);
-    }
-
-    var data = {
-      'user_id': userId,
-      "item_count": count,
-      'grand_total': total,
-      'payment_method': 'paypal',
-      'cart': cartList,
-    };
-   
       var endPoint = '/orders';
       var response = await Network().postRequest(data, endPoint);
       var body = json.decode(response.body);
@@ -190,7 +191,14 @@ class _CheckOutCardState extends State<CheckOutCard> {
                   child: DefaultButton(
                     text: "Check Out",
                     press: () {
-                      checkOut();
+                      if (cart.isEmpty) {
+                        Flushbar(
+                          message: "Please add an item to cart before checkout",
+                          duration: Duration(seconds: 3),
+                        )..show(context);
+                      } else {
+                        Navigator.pushNamed(context, CheckoutScreen.routeName);
+                      }
                     },
                   ),
                 ),

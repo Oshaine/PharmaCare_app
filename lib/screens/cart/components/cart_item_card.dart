@@ -80,7 +80,7 @@ class _CartItemCardState extends State<CartItemCard> {
         ),
         Column(
           children: [
-            const SizedBox(height: 35),
+            const SizedBox(height: 45),
             Row(
               children: [
                 // Spacer(),
@@ -99,9 +99,6 @@ class _CartItemCardState extends State<CartItemCard> {
                       }
                     });
                   },
-                ),
-                SizedBox(
-                  width: getProportationateScreenWidth(15),
                 ),
                 RoundedIconBtn(
                   icon: Icons.add,

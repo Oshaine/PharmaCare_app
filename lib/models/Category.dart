@@ -16,17 +16,15 @@ class Category {
 }
 
 Future<List<Category>> getCategory() async {
-
   var endPoint = '/categories';
   var response = await Network().getRequest(endPoint);
-    List<Category> categories = [];
+  List<Category> categories = [];
 
   Map<String, dynamic> body = json.decode(response.body);
-  
+
   for (var item in body['data']) {
     //pass category to constructor
     Category category = Category.fromJson(item);
-    print(category.name);
 
     categories.add(category);
   }

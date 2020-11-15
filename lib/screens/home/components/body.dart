@@ -108,10 +108,10 @@ class _BodyState extends State<Body> {
               thickness: 0.5,
               color: kPrimaryLightColor,
             ),
-            SizedBox(height: getProportationateScreenWidth(20)),
+            SizedBox(height: getProportationateScreenWidth(10)),
 
             Categories(), //Categories List
-            SizedBox(height: getProportationateScreenWidth(30)),
+            SizedBox(height: getProportationateScreenWidth(20)),
             // DiscountBanner(), //Discount Banner
 
             Column(
