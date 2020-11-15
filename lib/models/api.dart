@@ -21,7 +21,7 @@ class Network {
         'Content-type': 'application/json',
         'Accept': 'application/json',
         HttpHeaders.authorizationHeader: 'Bearer $token',
-        // HttpStatus.requestTimeout: KeepAlive,
+        'Connection': 'Keep-Alive',
       };
 
 //post reques to api

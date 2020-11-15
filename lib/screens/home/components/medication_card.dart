@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pharmacare_app/api/api.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/size_config.dart';
 
 class MedicationCard extends StatelessWidget {

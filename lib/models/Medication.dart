@@ -23,15 +23,15 @@ class Medication {
   factory Medication.fromJson(Map<String, dynamic> json) {
     return Medication(
         id: json['id'],
-        name: json['name'],
-        type: json['type'],
-        route: json['route'],
-        strength: json['strength'],
-        usage: json['usage'],
-        dosage: json['dosage'],
+        name: json['name'].toString(),
+        type: json['type'].toString(),
+        route: json['route'].toString(),
+        strength: json['strength'].toString(),
+        usage: json['usage'].toString(),
+        dosage: json['dosage'].toString(),
         categoryId: json['category_id'],
         units: json['units'],
-        image: json['image'],
+        image: json['image'].toString(),
         pricePerUnit: json['price_per_unit'],
         isFavourite: json['isFavourite'],
         isPopular: json['isPopular']);

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:pharmacare_app/api/api.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/home/components/categories.dart';
 import 'package:pharmacare_app/screens/home/components/home_header.dart';
@@ -46,9 +46,9 @@ class _BodyState extends State<Body> {
     var response = await Network().getRequest(endPoint);
     var body = json.decode(response.body);
     for (var item in body['data']) {
+      // print(item.name);
       //pass question to constructor
       Medication medication = Medication.fromJson(item);
-      // print(item);
       setState(() {
         medications.add(medication);
       });
@@ -125,6 +125,8 @@ class _BodyState extends State<Body> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
+                      //view single medication details
+
                       ...List.generate(
                         medications.length,
                         (index) => MedicationCard(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacare_app/models/Cart.dart';
+import 'package:pharmacare_app/screens/cart/cart_screen.dart';
 import 'package:pharmacare_app/screens/home/components/icon_btn_counter.dart';
 import 'package:pharmacare_app/screens/home/components/search_field.dart';
 import 'package:pharmacare_app/size_config.dart';
@@ -52,8 +54,10 @@ class HomeHeader extends StatelessWidget {
                       ),
                       IconBtnWithCounter(
                         svgSrc: "assets/icons/Cart Icon.svg",
-                        press: () {},
-                      )
+                        numOfItems: cart.length,
+                        press: () =>
+                            Navigator.pushNamed(context, CartScreen.routeName),
+                      ),
                     ],
                   ),
                   SizedBox(height: SizeConfig.screenHeight * 0.04),

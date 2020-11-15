@@ -37,6 +37,7 @@ TextTheme textTheme() {
 AppBarTheme appBarTheme() {
   return AppBarTheme(
     color: kPrimaryColor,
+    centerTitle: true,
     elevation: 0,
     brightness: Brightness.light,
     iconTheme: IconThemeData(color: Colors.white),

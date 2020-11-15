@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacare_app/models/Category.dart';
 import 'package:pharmacare_app/models/Medication.dart';
 import 'package:pharmacare_app/size_config.dart';
 
-class MedicationDescription extends StatelessWidget {
+class MedicationDescription extends StatefulWidget {
   const MedicationDescription({
     Key key,
     @required this.medication,
@@ -11,6 +12,33 @@ class MedicationDescription extends StatelessWidget {
 
   final Medication medication;
   final GestureTapCallback pressOnSeeMore;
+
+  @override
+  _MedicationDescriptionState createState() => _MedicationDescriptionState();
+}
+
+String category;
+
+class _MedicationDescriptionState extends State<MedicationDescription> {
+  @override
+  void initState() {
+    findCategory();
+    super.initState();
+  }
+
+  void findCategory() {
+    getCategory().then((value) {
+      for (var item in value) {
+        if (widget.medication.categoryId == item.id) {
+          setState(() {
+            category = item.name;
+            print(category);
+          });
+        }
+      }
+    });
+    // return category;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +51,7 @@ class MedicationDescription extends StatelessWidget {
           child: Container(
             alignment: Alignment.center,
             child: Text(
-              medication.name,
+              widget.medication.name,
               style: TextStyle(
                   fontSize: getProportationateScreenWidth(20),
                   color: Colors.black,
@@ -70,11 +98,11 @@ class MedicationDescription extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Type - " + medication.type),
-              Text("Category - " + medication.categoryId.toString()),
-              Text("Strength - " + medication.strength),
-              Text("Route - " + medication.route),
-              Text("Usage - " + medication.usage),
+              Text("Type - " + widget.medication.type),
+              Text("Category - " + category),
+              Text("Strength - " + widget.medication.strength),
+              Text("Route - " + widget.medication.route),
+              Text("Usage - " + widget.medication.usage),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pharmacare_app/constraints.dart';
+import 'package:pharmacare_app/models/Category.dart';
 import 'package:pharmacare_app/size_config.dart';
 
 class Categories extends StatelessWidget {
@@ -12,31 +13,62 @@ class Categories extends StatelessWidget {
       {"icon": "assets/icons/Game Icon.svg", "text": "Injections"},
       {"icon": "assets/icons/Gift Icon.svg", "text": "Pain Killer"},
       {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
+      {"icon": "assets/icons/Discover.svg", "text": "Capsules"},
     ];
+
     return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportationateScreenWidth(15)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ...List.generate(
-              categories.length,
-              (index) => CategoryCard(
-                    icon: categories[index]['icon'],
-                    text: categories[index]['text'],
-                    press: () {},
-                  ))
-        ],
-      ),
-    );
+        padding:
+            EdgeInsets.symmetric(horizontal: getProportationateScreenWidth(5)),
+        child: FutureBuilder(
+          future: getCategory(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: getProportationateScreenWidth(15)),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ...List.generate(
+                        snapshot.data.length,
+                        (index) => CategoryCard(
+                          text: snapshot.data[index].name,
+                          icon: categories[index]['icon'],
+                          press: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+              // return ListView.builder(
+              //   itemCount: snapshot.data.length,
+              //   itemBuilder: (context, index) {
+
+              //   },
+              // );
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ));
   }
 }
 
 class CategoryCard extends StatelessWidget {
   const CategoryCard({
     Key key,
-    @required this.icon,
+    this.icon,
     @required this.text,
     @required this.press,
   }) : super(key: key);
@@ -55,6 +87,8 @@ class CategoryCard extends StatelessWidget {
             AspectRatio(
               aspectRatio: 1,
               child: Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: getProportationateScreenWidth(2)),
                 padding: EdgeInsets.all(getProportationateScreenWidth(12)),
                 decoration: BoxDecoration(
                   color: Colors.lightBlue[100],

@@ -1,23 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:pharmacare_app/api/api.dart';
+import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/components/default_button.dart';
+import 'package:pharmacare_app/components/rounded_icon_btn.dart';
 import 'package:pharmacare_app/constraints.dart';
+import 'package:pharmacare_app/models/Cart.dart';
 import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/screens/cart/cart_screen.dart';
 import 'package:pharmacare_app/screens/details/components/medication_description.dart';
 import 'package:pharmacare_app/screens/home/components/home_header.dart';
 import 'package:pharmacare_app/size_config.dart';
 
-class Body extends StatelessWidget {
+class Body extends StatefulWidget {
   final Medication medication;
 
   const Body({Key key, @required this.medication}) : super(key: key);
+
+  @override
+  _BodyState createState() => _BodyState();
+}
+
+class _BodyState extends State<Body> {
+  var count = 1;
+  var total = 0.00;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           HomeHeader(headerText: "PharmaCare"),
-          MedicationImage(medication: medication),
+          MedicationImage(medication: widget.medication),
           //Medication Details Main Container
           TopRoundedContainer(
             color: Colors.white,
@@ -25,39 +37,58 @@ class Body extends StatelessWidget {
             child: Column(
               children: [
                 MedicationDescription(
-                  medication: medication,
+                  medication: widget.medication,
                   pressOnSeeMore: () {},
                 ),
-                // TopRoundedContainer(
-                //   color: kPrimaryLightColor,
-                //   child: Padding(
-                //     padding: EdgeInsets.symmetric(
-                //         horizontal: getProportationateScreenWidth(20)),
-                //     child: Row(
-                //       children: [
-                //         Container(
-                //           padding: EdgeInsets.all(8),
-                //           height: getProportationateScreenWidth(40),
-                //           width: getProportationateScreenWidth(40),
-                //           decoration: BoxDecoration(
-                //               color: products[0].color, shape: BoxShape.circle),
-                //         ),
-                //         Spacer(),
-                //         RoundedIconBtn(
-                //           icon: Icons.remove,
-                //           press: () {},
-                //         ),
-                //         SizedBox(
-                //           width: getProportationateScreenWidth(15),
-                //         ),
-                //         RoundedIconBtn(
-                //           icon: Icons.add,
-                //           press: () {},
-                //         )
-                //       ],
-                //     ),
-                //   ),
-                // ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: getProportationateScreenWidth(20)),
+                      child: Text("Quantity $count"),
+                    ),
+                    Spacer(),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: getProportationateScreenWidth(30)),
+                      child: RoundedIconBtn(
+                        icon: Icons.remove,
+                        press: () {
+                          count--;
+                          setState(() {
+                            if (count < 1) {
+                              count = 1;
+                              for (int i = 0; i < cart.length; i++) {
+                                cart[i].numOfItems = count;
+                                total = cart[i].medication.pricePerUnit * count;
+                              }
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      width: getProportationateScreenWidth(15),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: getProportationateScreenHeight(30)),
+                      child: RoundedIconBtn(
+                        icon: Icons.add,
+                        press: () {
+                          setState(() {
+                            count++;
+                            for (int i = 0; i < cart.length; i++) {
+                              cart[i].numOfItems = count;
+                              cart[i].total =
+                                  (cart[i].medication.pricePerUnit * count);
+                            }
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),
@@ -66,11 +97,23 @@ class Body extends StatelessWidget {
           ),
           DefaultButton(
             text: "Add to Cart",
-            press: () {},
+            press: () {
+              if (addToCart(widget.medication, count)) {
+                Navigator.pushNamed(context, CartScreen.routeName);
+              }
+            },
+          ),
+          SizedBox(
+            height: getProportationateScreenWidth(20),
           )
         ],
       ),
     );
+  }
+
+  bool addToCart(medication, itemCount) {
+    cart.add(Cart(medication: medication, numOfItems: itemCount));
+    return true;
   }
 }
 
