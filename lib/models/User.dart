@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:pharmacare_app/models/api.dart';
+import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
@@ -15,5 +18,18 @@ class User {
 
     // print(this.userId);
     return userData;
+  }
+
+  logout(BuildContext context) async {
+    var endPoint = '/auth/logout';
+    var response = await Network().getRequest(endPoint);
+    var body = json.decode(response.body);
+    if (body['status_code'] == 200) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      print("user logged out");
+      Navigator.popAndPushNamed(context, SignInScreen.routeName);
+    }
   }
 }

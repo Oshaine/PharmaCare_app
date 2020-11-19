@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/models/User.dart';
 import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/home/components/categories.dart';
@@ -9,9 +10,7 @@ import 'package:pharmacare_app/screens/home/components/home_header.dart';
 import 'package:pharmacare_app/screens/home/components/icon_btn_counter.dart';
 import 'package:pharmacare_app/screens/home/components/medication_card.dart';
 import 'package:pharmacare_app/screens/home/components/section_title.dart';
-import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -23,19 +22,12 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     getMedication();
-    _getUserInfo();
-    super.initState();
-  }
-
-  void _getUserInfo() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var userJson = localStorage.get('user');
-    var user = json.decode(userJson);
-
-    setState(() {
-      userData = user;
-      // print(userData);
+    User().getUserInfo().then((value) {
+      setState(() {
+        userData = value;
+      });
     });
+    super.initState();
   }
 
   //get Medications
@@ -95,7 +87,7 @@ class _BodyState extends State<Body> {
                   child: IconBtnWithCounter(
                     svgSrc: "assets/icons/Log out.svg",
                     press: () {
-                      logout();
+                      User().logout(context);
                     },
                   ),
                 ),
@@ -150,18 +142,5 @@ class _BodyState extends State<Body> {
         ),
       ),
     );
-  }
-
-  void logout() async {
-    var endPoint = '/auth/logout';
-    var response = await Network().getRequest(endPoint);
-    var body = json.decode(response.body);
-    if (body['status_code'] == 200) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('user');
-      localStorage.remove('token');
-      print("user logged out");
-      Navigator.popAndPushNamed(context, SignInScreen.routeName);
-    }
   }
 }
