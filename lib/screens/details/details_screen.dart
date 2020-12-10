@@ -10,7 +10,9 @@ class DetailsScreen extends StatelessWidget {
         ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Color(0xFFF5F6F9),
-      appBar: AppBar(),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Body(
         medication: arguments.medication,
       ),

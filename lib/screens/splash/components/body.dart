@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacare_app/screens/home/home_screen.dart';
 import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,7 +14,7 @@ class Body extends StatefulWidget {
 class _BodyState extends State<Body> {
   var isLoggedIn = false;
   void startTimer() {
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 5), () {
       _checkIfLoggedIn();
     });
   }
@@ -51,6 +52,10 @@ class _BodyState extends State<Body> {
                     ),
                     SizedBox(height: 50),
                     // Loader(),
+                    Icon(
+                      FontAwesomeIcons.heartbeat,
+                      size: 50.0,
+                    ),
                   ],
                 ),
               ),

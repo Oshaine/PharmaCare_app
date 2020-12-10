@@ -32,7 +32,7 @@ class _MedicationDescriptionState extends State<MedicationDescription> {
         if (widget.medication.categoryId == item.id) {
           setState(() {
             category = item.name;
-            print(category);
+            return category;
           });
         }
       }

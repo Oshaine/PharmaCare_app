@@ -45,12 +45,27 @@ class _BodyState extends State<Body> {
                     Padding(
                       padding: EdgeInsets.only(
                           left: getProportationateScreenWidth(20)),
+                      child: DefaultButton(
+                        text: "Add to Cart",
+                        press: () {
+                          if (addToCart(widget.medication, count)) {
+                            Navigator.pushNamed(context, CartScreen.routeName);
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: getProportationateScreenWidth(15),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: getProportationateScreenWidth(20)),
                       child: Text("Quantity $count"),
                     ),
                     Spacer(),
                     Padding(
                       padding: EdgeInsets.only(
-                          right: getProportationateScreenWidth(30)),
+                          right: getProportationateScreenWidth(5)),
                       child: RoundedIconBtn(
                         icon: Icons.remove,
                         press: () {
@@ -72,7 +87,7 @@ class _BodyState extends State<Body> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                          right: getProportationateScreenHeight(30)),
+                          right: getProportationateScreenHeight(5)),
                       child: RoundedIconBtn(
                         icon: Icons.add,
                         press: () {
@@ -86,26 +101,16 @@ class _BodyState extends State<Body> {
                           });
                         },
                       ),
-                    )
+                    ),
                   ],
                 )
               ],
             ),
           ),
-          SizedBox(
-            height: getProportationateScreenWidth(15),
-          ),
-          DefaultButton(
-            text: "Add to Cart",
-            press: () {
-              if (addToCart(widget.medication, count)) {
-                Navigator.pushNamed(context, CartScreen.routeName);
-              }
-            },
-          ),
-          SizedBox(
-            height: getProportationateScreenWidth(20),
-          )
+
+          // SizedBox(
+          //   height: getProportationateScreenWidth(20),
+          // )
         ],
       ),
     );

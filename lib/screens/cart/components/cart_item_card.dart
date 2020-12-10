@@ -59,7 +59,7 @@ class _CartItemCardState extends State<CartItemCard> {
           children: [
             Text(
               widget.cart.medication.name,
-              style: TextStyle(fontSize: 16, color: Colors.black),
+              style: TextStyle(fontSize: 14, color: Colors.black),
               maxLines: 2,
             ),
             // Text(widget.cart.total.toStringAsFixed(2)),

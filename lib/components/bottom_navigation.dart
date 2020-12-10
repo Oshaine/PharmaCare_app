@@ -1,45 +1,68 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pharmacare_app/constraints.dart';
+import 'package:pharmacare_app/screens/home/components/body.dart';
 import 'package:pharmacare_app/screens/home/home_screen.dart';
-import 'package:pharmacare_app/screens/orders/orders_screen.dart';
+import 'package:pharmacare_app/screens/medications/medications_screen.dart';
 import 'package:pharmacare_app/screens/profile/profile_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
 
-class BottomNavigation extends StatelessWidget {
-  const BottomNavigation({
-    Key key,
-    @required this.routeName,
-  }) : super(key: key);
+class BottomNavigation extends StatefulWidget {
+  const BottomNavigation(
+      {Key key,
+      // @required this.pages,
+      @required this.routeName})
+      : super(key: key);
 
   final String routeName;
+  // final List<Widget> pages;
+
+  @override
+  _BottomNavigationState createState() => _BottomNavigationState();
+}
+
+class _BottomNavigationState extends State<BottomNavigation> {
+  int _pageIndex = 0;
+  GlobalKey _bottomNavigationKey = GlobalKey();
+  Widget showPage = Body();
+
+  Widget _choosePage(page) {
+    switch (page) {
+      case 0:
+        return HomeScreen();
+        break;
+      case 1:
+        return ProfileScreen();
+        break;
+      case 2:
+        return MedicationsScreen();
+        break;
+      default:
+        return new Container(child: Text('No Page Found!'));
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return CurvedNavigationBar(
+      index: _pageIndex,
+      key: _bottomNavigationKey,
       height: getProportationateScreenHeight(50),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       color: kPrimaryColor,
       items: <Widget>[
         Icon(Icons.home_outlined,
             size: getProportationateScreenWidth(30), color: Colors.white),
         Icon(Icons.account_circle_rounded,
             size: getProportationateScreenWidth(30), color: Colors.white),
-        Icon(Icons.receipt_long,
+        Icon(Icons.medical_services,
             size: getProportationateScreenWidth(30), color: Colors.white),
       ],
       onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.popAndPushNamed(context, HomeScreen.routeName);
-            break;
-          case 1:
-            Navigator.popAndPushNamed(context, ProfileScreen.routeName);
-            break;
-          case 2:
-            Navigator.popAndPushNamed(context, OrdersScreen.routeName);
-            break;
-        }
+        setState(() {
+          showPage = _choosePage(index);
+        });
       },
     );
   }

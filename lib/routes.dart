@@ -5,7 +5,10 @@ import 'package:pharmacare_app/screens/complete_profile/complete_profile_screen.
 import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/forget_password/forget_password_screen.dart';
 import 'package:pharmacare_app/screens/home/home_screen.dart';
+import 'package:pharmacare_app/screens/medications/medications_screen.dart';
 import 'package:pharmacare_app/screens/orders/orders_screen.dart';
+import 'package:pharmacare_app/screens/prescriptions/components/prescription_checkout.dart';
+import 'package:pharmacare_app/screens/prescriptions/prescription_screen.dart';
 import 'package:pharmacare_app/screens/profile/profile_screen.dart';
 import 'package:pharmacare_app/screens/sign_in/sign_in_screen.dart';
 import 'package:pharmacare_app/screens/registration/registration_screen.dart';
@@ -27,4 +30,8 @@ final Map<String, WidgetBuilder> routes = {
   CheckoutScreen.routeName: (context) => CheckoutScreen(),
   ProfileScreen.routeName: (context) => ProfileScreen(),
   OrdersScreen.routeName: (context) => OrdersScreen(),
+  PrescriptionScreen.routeName: (context) => PrescriptionScreen(),
+  MedicationsScreen.routeName: (context) => MedicationsScreen(),
+  PrescriptionCheckoutScreen.routeName: (context) =>
+      PrescriptionCheckoutScreen()
 };

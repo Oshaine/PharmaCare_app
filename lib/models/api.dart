@@ -33,6 +33,13 @@ class Network {
         body: jsonEncode(data), headers: _setHeaders());
   }
 
+//put request
+  putRequest(data, endPoint) async {
+    var fullUrl = url + endPoint;
+    return await http.put(fullUrl,
+        body: jsonEncode(data), headers: _setHeaders());
+  }
+
   postImage(image, endPoint) async {
     var uri = Uri.parse(url + endPoint);
     var request = http.MultipartRequest('POST', uri);

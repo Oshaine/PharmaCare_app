@@ -173,6 +173,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
     localStorage.setString('phone_number', phoneNumber);
     localStorage.setString('address', address);
 
-    Navigator.popAndPushNamed(context, CompleteProfileScreen.routeName);
+    Navigator.pushNamed(context, CompleteProfileScreen.routeName);
   }
 }

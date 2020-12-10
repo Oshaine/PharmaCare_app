@@ -4,7 +4,7 @@ import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pharmacare_app/components/header.dart';
-import 'package:pharmacare_app/constraints.dart';
+import 'package:pharmacare_app/components/payment_method.dart';
 import 'package:pharmacare_app/models/Cart.dart';
 import 'package:pharmacare_app/models/User.dart';
 import 'package:pharmacare_app/models/api.dart';
@@ -25,13 +25,15 @@ class Body extends StatelessWidget {
     getGrandTotal() {
       for (int i = 0; i < cart.length; i++) {
         // setState(() {
-        if (cart[i].total != null) {
+        if (cart[i].total == null) {
           total += cart[i].total;
         } else {
-          total += cart[i].medication.pricePerUnit * cart[i].numOfItems;
+          total = cart[i].medication.pricePerUnit * cart[i].numOfItems;
         }
         // });
       }
+      print(total);
+      return total;
     }
 
     var userId;
@@ -41,7 +43,6 @@ class Body extends StatelessWidget {
 
     checkOut(paymentmethod, isPaid) async {
       try {
-        getGrandTotal();
         for (int i = 0; i < cart.length; i++) {
           var tempList;
           tempList = {
@@ -56,7 +57,7 @@ class Body extends StatelessWidget {
         var data = {
           'user_id': userId,
           "item_count": count,
-          'grand_total': total,
+          'grand_total': getGrandTotal().toStringAsFixed(2),
           'is_paid': isPaid,
           'payment_method': paymentmethod,
           'cart': cartList,
@@ -70,16 +71,27 @@ class Body extends StatelessWidget {
         print(body);
         if (body['status_code'] == 200) {
           cart.clear();
+          cartList.clear();
+          Navigator.pushNamed(context, HomeScreen.routeName);
+
           Flushbar(
-            message: body['message'],
+            icon: Icon(
+              Icons.check,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.green[200],
+            message: "Order Has Been Placed",
             duration: Duration(seconds: 3),
           )..show(context);
-
-          Navigator.pushNamed(context, HomeScreen.routeName);
         }
       } catch (e) {
         Flushbar(
-          message: "Something happened, Try again later",
+          icon: Icon(
+            Icons.error,
+            color: Colors.white,
+          ),
+          backgroundColor: Colors.red[200],
+          message: "An Error Occured",
           duration: Duration(seconds: 3),
         )..show(context);
       }
@@ -102,7 +114,7 @@ class Body extends StatelessWidget {
             text: "Card",
             iconData: FontAwesomeIcons.creditCard,
             press: () {
-              var paymentmethod = "card";
+              var paymentmethod = "Card";
               var isPaid = true;
               checkOut(paymentmethod, isPaid);
             },
@@ -111,7 +123,7 @@ class Body extends StatelessWidget {
             text: "PayPal",
             iconData: FontAwesomeIcons.paypal,
             press: () {
-              var paymentmethod = "paypal";
+              var paymentmethod = "PayPal";
               bool isPaid = true;
               checkOut(paymentmethod, isPaid);
             },
@@ -120,7 +132,7 @@ class Body extends StatelessWidget {
             text: "Cash On Pickup",
             iconData: FontAwesomeIcons.moneyBill,
             press: () {
-              var paymentmethod = "cash_on_pickup";
+              var paymentmethod = "Cash On Pickup";
               bool isPaid = false;
               checkOut(paymentmethod, isPaid);
             },
@@ -141,49 +153,12 @@ class Body extends StatelessWidget {
                     FontAwesomeIcons.dollarSign,
                     color: Colors.indigo,
                   ),
-                  title: Text(cart.first.total.toString()),
+                  title: Text(getGrandTotal().toStringAsFixed(2)),
                 ),
               ),
             ]),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class PaymentMethods extends StatelessWidget {
-  const PaymentMethods({
-    Key key,
-    @required this.text,
-    @required this.iconData,
-    @required this.press,
-  }) : super(key: key);
-
-  final String text;
-  final IconData iconData;
-  final Function press;
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: const EdgeInsets.all(8.0),
-      child: InkWell(
-        onTap: press,
-        child: Container(
-          padding: EdgeInsets.all(getProportationateScreenWidth(8)),
-          child: ListTile(
-            leading: Icon(
-              iconData,
-              color: Colors.indigo,
-            ),
-            title: Text(text),
-            trailing: Icon(
-              Icons.arrow_forward_ios,
-              color: kPrimaryColor,
-            ),
-          ),
-        ),
       ),
     );
   }

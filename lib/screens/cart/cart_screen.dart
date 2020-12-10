@@ -1,15 +1,12 @@
 import 'dart:convert';
-
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pharmacare_app/components/default_button.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Cart.dart';
-import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/screens/cart/components/body.dart';
 import 'package:pharmacare_app/screens/checkout/checkout_screen.dart';
-import 'package:pharmacare_app/screens/home/home_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -86,51 +83,6 @@ class _CheckOutCardState extends State<CheckOutCard> {
     });
   }
 
-  checkOut() async {
-    try {
-      var cartList = [];
-
-      getUserInfo();
-      for (int i = 0; i < cart.length; i++) {
-        var tempList;
-
-        tempList = {
-          "medication_id": medicationId = cart[i].medication.id,
-          "price_per_unit": price = cart[i].medication.pricePerUnit,
-          "item_count": count = cart[i].numOfItems,
-        };
-
-        cartList.add(tempList);
-      }
-
-      var data = {
-        'user_id': userId,
-        "item_count": count,
-        'grand_total': total,
-        'payment_method': 'paypal',
-        'cart': cartList,
-      };
-
-      var endPoint = '/orders';
-      var response = await Network().postRequest(data, endPoint);
-      var body = json.decode(response.body);
-      if (body['status_code'] == 200) {
-        cart.clear();
-        Flushbar(
-          message: body['message'],
-          duration: Duration(seconds: 3),
-        )..show(context);
-
-        Navigator.pushNamed(context, HomeScreen.routeName);
-      }
-    } catch (e) {
-      Flushbar(
-        message: "Something happened, Try again later",
-        duration: Duration(seconds: 3),
-      )..show(context);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -178,7 +130,7 @@ class _CheckOutCardState extends State<CheckOutCard> {
               children: [
                 Text.rich(
                   TextSpan(
-                    text: "Toatal:\n",
+                    text: "Total:\n",
                     children: [
                       TextSpan(
                           text: "\$ " + total.toStringAsFixed(2),

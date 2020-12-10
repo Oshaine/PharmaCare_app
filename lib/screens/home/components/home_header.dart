@@ -18,7 +18,7 @@ class HomeHeader extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: SizeConfig.screenHeight * 0.2,
+          height: SizeConfig.screenHeight * 0.19,
           decoration: BoxDecoration(
               // image: DecorationImage(
               //   fit: BoxFit.fill,

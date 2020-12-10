@@ -29,7 +29,21 @@ class User {
       localStorage.remove('user');
       localStorage.remove('token');
       print("user logged out");
-      Navigator.popAndPushNamed(context, SignInScreen.routeName);
+      Navigator.pushNamed(context, SignInScreen.routeName);
     }
+  }
+
+  getUserPrescriptions(user) async {
+    var endPoint = '/user-prescriptions';
+    var response = await Network().postRequest(user, endPoint);
+    List<dynamic> body = json.decode(response.body);
+    return body;
+  }
+
+  getUserOrders(user) async {
+    var endPoint = '/user-orders';
+    var response = await Network().postRequest(user, endPoint);
+    List<dynamic> body = json.decode(response.body);
+    return body;
   }
 }

@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:pharmacare_app/models/api.dart';
+
 class Medication {
   final int id;
   final String name, type, route, strength, usage, image, dosage;
@@ -36,4 +40,53 @@ class Medication {
         isFavourite: json['isFavourite'],
         isPopular: json['isPopular']);
   }
+}
+
+//get Medications
+
+getMedication() async {
+  var endPoint = '/medications';
+  var response = await Network().getRequest(endPoint);
+  List<Medication> medications = [];
+
+  var body = json.decode(response.body);
+  for (var item in body['data']) {
+    //pass question to constructor
+    Medication medication = Medication.fromJson(item);
+    medications.add(medication);
+  }
+
+  return medications;
+}
+
+//get Featured Medications
+
+getFeaturedMedication() async {
+  var endPoint = '/featured-medications';
+  var response = await Network().getRequest(endPoint);
+  List<Medication> medications = [];
+
+  var body = json.decode(response.body);
+  for (var item in body['data']) {
+    //pass question to constructor
+    Medication medication = Medication.fromJson(item);
+    medications.add(medication);
+  }
+
+  return medications;
+}
+
+searchMedication(query) async {
+  var endPoint = '/search/' + query;
+  var response = await Network().getRequest(endPoint);
+  List<Medication> medications = [];
+  var body = json.decode(response.body);
+  for (var item in body['data']) {
+    //pass question to constructor
+    print(item);
+    Medication medication = Medication.fromJson(item);
+    medications.add(medication);
+  }
+
+  return medications;
 }

@@ -1,18 +1,21 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/models/Medication.dart';
 import 'package:pharmacare_app/models/User.dart';
-import 'package:pharmacare_app/models/api.dart';
 import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/home/components/categories.dart';
 import 'package:pharmacare_app/screens/home/components/home_header.dart';
+import 'package:pharmacare_app/screens/home/components/home_screen_adapter.dart';
 import 'package:pharmacare_app/screens/home/components/icon_btn_counter.dart';
 import 'package:pharmacare_app/screens/home/components/medication_card.dart';
 import 'package:pharmacare_app/screens/home/components/section_title.dart';
+import 'package:pharmacare_app/screens/medications/medications_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
 
 class Body extends StatefulWidget {
+  final IHomeScreenAdapter adapter;
+
+  const Body({Key key, this.adapter}) : super(key: key);
   @override
   _BodyState createState() => _BodyState();
 }
@@ -21,30 +24,12 @@ class _BodyState extends State<Body> {
   var userData;
   @override
   void initState() {
-    getMedication();
     User().getUserInfo().then((value) {
       setState(() {
         userData = value;
       });
     });
     super.initState();
-  }
-
-  //get Medications
-  List<Medication> medications = [];
-
-  void getMedication() async {
-    var endPoint = '/medications';
-    var response = await Network().getRequest(endPoint);
-    var body = json.decode(response.body);
-    for (var item in body['data']) {
-      // print(item.name);
-      //pass question to constructor
-      Medication medication = Medication.fromJson(item);
-      setState(() {
-        medications.add(medication);
-      });
-    }
   }
 
   @override
@@ -54,7 +39,7 @@ class _BodyState extends State<Body> {
         child: Column(
           children: [
             HomeHeader(headerText: "PharmaCare"), //Header
-            SizedBox(height: getProportationateScreenWidth(20)),
+            SizedBox(height: getProportationateScreenWidth(10)),
             Row(
               children: [
                 Padding(
@@ -110,31 +95,47 @@ class _BodyState extends State<Body> {
               children: [
                 SectionTtile(
                   text: "Featured Medications",
-                  press: () {},
+                  press: () {
+                    Navigator.pushNamed(context, MedicationsScreen.routeName);
+                  },
                 ),
                 SizedBox(height: getProportationateScreenWidth(20)),
                 SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      //view single medication details
-
-                      ...List.generate(
-                        medications.length,
-                        (index) => MedicationCard(
-                          press: () => Navigator.pushNamed(
-                              context, DetailsScreen.routeName,
-                              arguments: MedicationDetailsArgs(
-                                  medication: medications[index])),
-                          medication: medications[index],
-                        ),
-                      ),
-                      SizedBox(
-                        width: getProportationateScreenWidth(20),
-                      )
-                    ],
-                  ),
-                ),
+                    scrollDirection: Axis.horizontal,
+                    child: FutureBuilder(
+                      future: getFeaturedMedication(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Row(
+                            children: [
+                              //view single medication details
+                              ...List.generate(
+                                snapshot.data.length,
+                                (index) => MedicationCard(
+                                  press: () => Navigator.pushNamed(
+                                    context,
+                                    DetailsScreen.routeName,
+                                    arguments: MedicationDetailsArgs(
+                                        medication: snapshot.data[index]),
+                                  ),
+                                  medication: snapshot.data[index],
+                                ),
+                              ),
+                              SizedBox(
+                                width: getProportationateScreenWidth(20),
+                              )
+                            ],
+                          );
+                        } else {
+                          return Container(
+                            child: Center(
+                              heightFactor: 5.0,
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
+                      },
+                    )),
                 SizedBox(height: getProportationateScreenWidth(30)),
               ],
             )

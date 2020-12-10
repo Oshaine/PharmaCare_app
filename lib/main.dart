@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharmacare_app/routes.dart';
+import 'package:pharmacare_app/screens/home/home_screen.dart';
 import 'package:pharmacare_app/screens/splash/splash_screen.dart';
 import 'package:pharmacare_app/theme.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PharmaCare App',
       theme: theme(),
-      home: SplashScreen(),
+      home: HomeScreen(),
       initialRoute: SplashScreen.routeName,
       routes: routes,
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacare_app/models/Medication.dart';
+import 'package:pharmacare_app/screens/home/components/search_results.dart';
 import 'package:pharmacare_app/size_config.dart';
 
 class SearchField extends StatelessWidget {
@@ -25,7 +27,15 @@ class SearchField extends StatelessWidget {
       ),
       child: TextField(
         onChanged: (value) {
-          //Search Medication
+          value = value.toLowerCase();
+        },
+        onSubmitted: (query) {
+          var data = searchMedication(query);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SearchResults(data),
+              ));
         },
         decoration: InputDecoration(
           enabledBorder: InputBorder.none,

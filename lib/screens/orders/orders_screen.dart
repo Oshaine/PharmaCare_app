@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pharmacare_app/constraints.dart';
 import 'package:pharmacare_app/screens/orders/components/body.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -10,6 +11,8 @@ class OrdersScreen extends StatelessWidget {
         title: Text("Orders"),
       ),
       body: Body(),
+      backgroundColor:
+          Color.alphaBlend(Colors.lightBlueAccent.shade100, kPrimaryColor),
     );
   }
 }

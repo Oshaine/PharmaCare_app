@@ -217,7 +217,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         localStorage.setString(
             "user", json.encode(body['data']['original']['user']));
 
-        Navigator.popAndPushNamed(context, HomeScreen.routeName);
+        Navigator.pushNamed(context, HomeScreen.routeName);
       } else {
         var message = body['message'] != ""
             ? body['message']
