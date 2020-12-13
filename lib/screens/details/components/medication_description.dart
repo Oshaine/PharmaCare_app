@@ -60,26 +60,6 @@ class _MedicationDescriptionState extends State<MedicationDescription> {
           ),
         ),
         const SizedBox(height: 10),
-        // Align(
-        //   alignment: Alignment.centerRight,
-        //   child: Container(
-        //     padding: EdgeInsets.all(getProportationateScreenWidth(15)),
-        //     width: getProportationateScreenWidth(64),
-        //     decoration: BoxDecoration(
-        //         color: medication.isFavourite == 1
-        //             ? Color(0xFFFFE6E6)
-        //             : Color(0xFFF5F6F9),
-        //         borderRadius: BorderRadius.only(
-        //             topLeft: Radius.circular(20),
-        //             bottomLeft: Radius.circular(20))),
-        //     child: SvgPicture.asset(
-        //       "assets/icons/Heart Icon_2.svg",
-        //       color: medication.isFavourite == 1
-        //           ? Color(0xFFFF4848)
-        //           : Color(0xFFDBDEE4),
-        //     ),
-        //   ),
-        // ),
         Padding(
           padding: EdgeInsets.only(
               left: getProportationateScreenWidth(20),
@@ -87,7 +67,9 @@ class _MedicationDescriptionState extends State<MedicationDescription> {
               bottom: getProportationateScreenWidth(20)),
           child: Text(
             "Medication Summary",
-            style: TextStyle(fontSize: getProportationateScreenWidth(18)),
+            style: TextStyle(
+              fontSize: getProportationateScreenWidth(18),
+            ),
           ),
         ),
         Container(
@@ -113,24 +95,6 @@ class _MedicationDescriptionState extends State<MedicationDescription> {
                 horizontal: getProportationateScreenWidth(20),
                 vertical: 10,
               ),
-              // child: GestureDetector(
-              //   onTap: pressOnSeeMore,
-              //   child: Row(
-              //     children: [
-              //       Text(
-              //         "See More Details",
-              //         style: TextStyle(
-              //             color: kPrimaryColor, fontWeight: FontWeight.w600),
-              //       ),
-              //       SizedBox(width: 5),
-              //       Icon(
-              //         Icons.arrow_forward_ios,
-              //         size: 12,
-              //         color: kPrimaryColor,
-              //       )
-              //     ],
-              //   ),
-              // ),
             )
           ],
         )

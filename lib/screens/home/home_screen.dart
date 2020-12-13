@@ -22,13 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _choosePage(page) {
     switch (page) {
       case 0:
-        return HomeScreen();
+        return new Body();
         break;
       case 1:
-        return ProfileScreen();
+        return new ProfileScreen();
         break;
       case 2:
-        return MedicationsScreen();
+        return new MedicationsScreen();
         break;
       default:
         return new Container(child: Text('No Page Found!'));

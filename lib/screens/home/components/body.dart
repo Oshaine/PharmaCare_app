@@ -5,7 +5,6 @@ import 'package:pharmacare_app/models/User.dart';
 import 'package:pharmacare_app/screens/details/details_screen.dart';
 import 'package:pharmacare_app/screens/home/components/categories.dart';
 import 'package:pharmacare_app/screens/home/components/home_header.dart';
-import 'package:pharmacare_app/screens/home/components/home_screen_adapter.dart';
 import 'package:pharmacare_app/screens/home/components/icon_btn_counter.dart';
 import 'package:pharmacare_app/screens/home/components/medication_card.dart';
 import 'package:pharmacare_app/screens/home/components/section_title.dart';
@@ -13,9 +12,9 @@ import 'package:pharmacare_app/screens/medications/medications_screen.dart';
 import 'package:pharmacare_app/size_config.dart';
 
 class Body extends StatefulWidget {
-  final IHomeScreenAdapter adapter;
-
-  const Body({Key key, this.adapter}) : super(key: key);
+  const Body({
+    Key key,
+  }) : super(key: key);
   @override
   _BodyState createState() => _BodyState();
 }
