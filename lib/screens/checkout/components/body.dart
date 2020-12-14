@@ -25,11 +25,7 @@ class Body extends StatelessWidget {
     getGrandTotal() {
       for (int i = 0; i < cart.length; i++) {
         // setState(() {
-        if (cart[i].total == null) {
-          total += cart[i].total;
-        } else {
-          total = cart[i].medication.pricePerUnit * cart[i].numOfItems;
-        }
+        total += cart[i].total;
         // });
       }
       print(total);
